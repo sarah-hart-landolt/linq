@@ -220,21 +220,21 @@ namespace linq
                 new Customer() { Name = "Tina Fey", Balance = 1000000.00, Bank = "CITI" },
                 new Customer() { Name = "Sid Brown", Balance = 49582.68, Bank = "CITI" }
             };
-            var millionaireBankCustomers = customers.Where(customer => customer.Balance >= 1000000);
+            var millionaireCustomers = customers.Where(customer => customer.Balance >= 1000000);
 
-            var Banks = millionaireBankCustomers.GroupBy(customer => customer.Bank);
-            List<BanksReport> BanksMillionaires = Banks.Select(bank =>
+            var GroupedMillionaireCustomersByBank = millionaireCustomers.GroupBy(customer => customer.Bank);
+            List<BanksReport> Banks = GroupedMillionaireCustomersByBank.Select(GMCBB =>
                 new BanksReport
                 {
-                    MillionaireCount = bank.Count(),
-                    BankName = bank.Key
+                    MillionaireCount = GMCBB.Count(),
+                        BankName = GMCBB.Key
                 }).ToList();
 
-                foreach (BanksReport banksMillionaire in BanksMillionaires)
+            foreach (BanksReport bank in Banks)
             {
-                Console.WriteLine($"{banksMillionaire.BankName} : {banksMillionaire.MillionaireCount}");
+                Console.WriteLine($"{bank.BankName} : {bank.MillionaireCount}");
             }
 
-             }
+        }
     }
 }
